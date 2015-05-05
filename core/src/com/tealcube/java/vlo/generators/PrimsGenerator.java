@@ -17,55 +17,71 @@ public class PrimsGenerator implements Generator {
         int height = dungeon.getHeight();
         int[][] maz = new int[width][height];
 
-        int curX = random.nextInt(width);
-        int curY = random.nextInt(height);
-        maz[curX][curY] = 1;
+        int startX = random.nextInt(width);
+        int startY = random.nextInt(height);
 
-        Point startPoint = new Point(curX, curY, null);
+        while (startX < 1 || startX >= (width - 1) || startY < 1 || startY >= (height - 1)) {
+            startX = random.nextInt(width);
+            startY = random.nextInt(height);
+        }
+
+        maz[startX][startY] = 1;
+        Point startPoint = new Point(startX, startY, null);
+
         List<Point> frontier = new ArrayList<Point>();
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
-                // only look at non-diagonal neighbors
-                if (x == 0 && y == 0 || x != 0 && y != 0 || x < 0 || x >= width || y < 0 || y >= height) {
+                if (x == 0 && y == 0 || x != 0 && y != 0) {
                     continue;
                 }
-                if (maz[startPoint.r + x][startPoint.c + y] == 1) {
+                Point point = new Point(startPoint.x + x, startPoint.y + y, startPoint);
+                if (point.x < 1 || point.x >= (width - 1) || point.y < 1 || point.y >= (height - 1)) {
                     continue;
                 }
-                frontier.add(new Point(startPoint.r + x, startPoint.c + y, startPoint));
+                frontier.add(point);
             }
         }
 
-        Point endPoint = null;
+        Point lastPoint = null;
+
         while (!frontier.isEmpty()) {
-            Point current = frontier.remove(random.nextInt(frontier.size()));
-            Point opposite = current.opposite();
-            if (maz[current.r][current.c] == 0 && maz[opposite.r][opposite.c] == 0) {
-                maz[current.r][current.c] = 1;
-                maz[opposite.r][opposite.c] = 1;
-                endPoint = opposite;
+            Point cur = frontier.remove(random.nextInt(frontier.size()));
+            Point opp = cur.opposite();
 
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = -1; y <= 1; y++) {
-                        // only look at non-diagonal neighbors
-                        if (x == 0 && y == 0 || x != 0 && y != 0 || x < 0 || x >= width || y < 0 || y >= height) {
-                            continue;
-                        }
-                        if (maz[opposite.r + x][opposite.c + y] == 1) {
-                            continue;
-                        }
-                        frontier.add(new Point(opposite.r + x, startPoint.c + y, opposite));
+            if (opp == null) {
+                continue;
+            }
+            if (opp.x < 1 || opp.x >= (width - 1) || opp.y < 1 || opp.y >= (height - 1)) {
+                continue;
+            }
+            if (maz[cur.x][cur.y] == 1 || maz[opp.x][opp.y] == 1) {
+                continue;
+            }
+            maz[cur.x][cur.y] = 1;
+            maz[opp.x][opp.y] = 1;
+
+            lastPoint = opp;
+
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    if (x == 0 && y == 0 || x != 0 && y != 0) {
+                        continue;
                     }
+                    Point point = new Point(opp.x + x, opp.y + y, opp);
+                    if (point.x < 1 || point.x >= (width - 1) || point.y < 1 || point.y >= (height - 1)) {
+                        continue;
+                    }
+                    frontier.add(point);
                 }
             }
         }
 
-        for (int x = 0; x < maz.length; x++) {
-            for (int y = 0; y < maz[x].length; y++) {
-                if (x == startPoint.c && y == startPoint.r) {
-                    dungeon.setBlockType(x, y, BlockType.START);
-                } else if (endPoint != null && x == endPoint.c && y == endPoint.r) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (lastPoint != null && x == lastPoint.x && y == lastPoint.y) {
                     dungeon.setBlockType(x, y, BlockType.END);
+                } else if (x == startPoint.x && y == startPoint.y) {
+                    dungeon.setBlockType(x, y, BlockType.START);
                 } else {
                     dungeon.setBlockType(x, y, maz[x][y] == 1 ? BlockType.AIR : BlockType.STONE);
                 }
@@ -78,22 +94,22 @@ public class PrimsGenerator implements Generator {
     }
 
     class Point {
-        int r;
-        int c;
+        Integer x;
+        Integer y;
         Point parent;
 
         Point(int x, int y, Point p) {
-            this.r = x;
-            this.c = y;
+            this.x = x;
+            this.y = y;
             this.parent = p;
         }
 
         Point opposite() {
-            if (Integer.compare(r, parent.r) != 0) {
-                return new Point(this.r + Integer.compare(r, parent.r), this.c, this);
+            if (x.compareTo(parent.x) != 0) {
+                return new Point(this.x + x.compareTo(parent.x), this.y, this);
             }
-            if (Integer.compare(c, parent.c) != 0) {
-                return new Point(this.r, this.c + Integer.compare(c, parent.c), this);
+            if (y.compareTo(parent.y) != 0) {
+                return new Point(this.x, this.y + y.compareTo(parent.y), this);
             }
             return null;
         }

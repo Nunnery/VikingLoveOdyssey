@@ -9,8 +9,7 @@ import com.tealcube.java.vlo.blocks.BlockType;
 import com.tealcube.java.vlo.dungeons.Dungeon;
 import com.tealcube.java.vlo.dungeons.DungeonView;
 import com.tealcube.java.vlo.generators.Generator;
-import com.tealcube.java.vlo.generators.SimpleGenerator;
-import com.tealcube.java.vlo.populators.RoomPopulator;
+import com.tealcube.java.vlo.generators.PrimsGenerator;
 
 import java.util.Random;
 
@@ -34,8 +33,9 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
         int dungeonHeight = GAME_HEIGHT / DungeonView.TILE_HEIGHT;
         Dungeon dungeon = new Dungeon(dungeonWidth, dungeonHeight);
 
-        generator = new SimpleGenerator(0.25, random.nextInt(2) + 2);
-        generator.getPopulators().add(new RoomPopulator(random.nextInt(5)));
+        //generator = new SimpleGenerator(0.25, random.nextInt(2) + 2);
+        generator = new PrimsGenerator();
+        //generator.getPopulators().add(new RoomPopulator(random.nextInt(5)));
         generator.generate(dungeon, random);
 
         dungeonView = new DungeonView(dungeon);
