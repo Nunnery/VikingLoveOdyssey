@@ -19,15 +19,14 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 640;
 
-	private DungeonView dungeonView;
+    private DungeonView dungeonView;
     private Generator generator;
     private Random random;
 
-	@Override
-	public void create () {
-		for (BlockType blockType : BlockType.values()) {
+    @Override public void create() {
+        for (BlockType blockType : BlockType.values()) {
             BlockTextureMap.getInstance().put(blockType, new Texture(Gdx.files.internal(blockType.getPath())));
-		}
+        }
 
         random = new Random(System.currentTimeMillis());
 
@@ -39,21 +38,20 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
         generator.getPopulators().add(new RoomPopulator(random.nextInt(5)));
         generator.generate(dungeon, random);
 
-		dungeonView = new DungeonView(dungeon);
-	}
+        dungeonView = new DungeonView(dungeon);
+    }
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		dungeonView.render();
-	}
+    @Override public void render() {
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        dungeonView.render();
+    }
 
-    @Override
-    public void dispose() {
+    @Override public void dispose() {
         dungeonView.dispose();
         for (BlockType blockType : BlockType.values()) {
             BlockTextureMap.getInstance().get(blockType).dispose();
         }
     }
+
 }

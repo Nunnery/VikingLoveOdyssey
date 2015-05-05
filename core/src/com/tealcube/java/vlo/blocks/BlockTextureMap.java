@@ -9,12 +9,12 @@ import java.util.HashMap;
  */
 public class BlockTextureMap extends HashMap<BlockType, Texture> {
 
+    private static BlockTextureMap instance;
+
     private BlockTextureMap() {
         // do nothing but call super
         super();
     }
-
-    private static BlockTextureMap instance;
 
     public static BlockTextureMap getInstance() {
         if (instance == null) {
