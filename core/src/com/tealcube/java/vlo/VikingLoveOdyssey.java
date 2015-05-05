@@ -10,6 +10,7 @@ import com.tealcube.java.vlo.dungeons.Dungeon;
 import com.tealcube.java.vlo.dungeons.DungeonView;
 import com.tealcube.java.vlo.generators.Generator;
 import com.tealcube.java.vlo.generators.PrimsGenerator;
+import com.tealcube.java.vlo.populators.LoopPopulator;
 import com.tealcube.java.vlo.populators.SparsenessPopulator;
 
 import java.util.Random;
@@ -28,7 +29,7 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
             BlockTextureMap.getInstance().put(blockType, new Texture(Gdx.files.internal(blockType.getPath())));
         }
 
-        random = new Random(System.currentTimeMillis());
+        random = new Random(0);
 
         int dungeonWidth = GAME_WIDTH / DungeonView.TILE_WIDTH;
         int dungeonHeight = GAME_HEIGHT / DungeonView.TILE_HEIGHT;
@@ -36,6 +37,7 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
 
         generator = new PrimsGenerator();
         generator.getPopulators().add(new SparsenessPopulator(5));
+        generator.getPopulators().add(new LoopPopulator(0.5D, 0.5D));
         generator.generate(dungeon, random);
 
         dungeonView = new DungeonView(dungeon);
