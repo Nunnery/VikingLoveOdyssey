@@ -3,5 +3,5 @@ VikingLoveOdyssey is a randomly generated dungeon crawler written using libGDX.
 
 ## Changelog
 ### 0.0.1-SNAPSHOT
-* Added initial simple maze generation
+* Added maze generation following Prim's Algorithm
 * Added initial simple room generation
