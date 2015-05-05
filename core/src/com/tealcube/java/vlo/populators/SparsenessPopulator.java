@@ -54,7 +54,6 @@ public class SparsenessPopulator implements Populator {
                     if (foundAir >= 2) {
                         continue;
                     }
-                    System.out.println("erasing dead end at " + x + "," + y);
                     dungeon.setBlockType(x, y, BlockType.STONE);
                 }
             }
