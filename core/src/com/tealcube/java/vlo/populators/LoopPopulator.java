@@ -79,7 +79,7 @@ public class LoopPopulator implements Populator {
                     continue;
                 }
                 // if random number is higher than chance, don't remove
-                if (random.nextDouble() > deadEndRemovePercentage) {
+                if (random.nextDouble() >= deadEndRemovePercentage) {
                     continue;
                 }
 
