@@ -87,6 +87,10 @@ public class PrimsGenerator implements Generator {
                 }
             }
         }
+
+        for (Populator populator : getPopulators()) {
+            populator.populate(dungeon, random);
+        }
     }
 
     @Override public List<Populator> getPopulators() {
