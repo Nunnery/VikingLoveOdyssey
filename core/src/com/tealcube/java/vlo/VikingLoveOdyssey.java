@@ -29,7 +29,7 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
             BlockTextureMap.getInstance().put(blockType, new Texture(Gdx.files.internal(blockType.getPath())));
         }
 
-        random = new Random(0);
+        random = new Random(System.currentTimeMillis());
 
         int dungeonWidth = GAME_WIDTH / DungeonView.TILE_WIDTH;
         int dungeonHeight = GAME_HEIGHT / DungeonView.TILE_HEIGHT;
