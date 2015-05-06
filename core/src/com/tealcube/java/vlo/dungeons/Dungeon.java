@@ -37,4 +37,20 @@ public class Dungeon {
         return (x <= width || x >= 0 || y <= height || y >= 0) ? blocks[x][y] : BlockType.STONE;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Dungeon))
+            return false;
+
+        Dungeon dungeon = (Dungeon) o;
+
+        return getWidth() == dungeon.getWidth() && getHeight() == dungeon.getHeight();
+    }
+
+    @Override public int hashCode() {
+        int result = getWidth();
+        result = 31 * result + getHeight();
+        return result;
+    }
 }
