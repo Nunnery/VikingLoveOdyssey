@@ -1,6 +1,8 @@
 package com.tealcube.java.vlo.components;
 
-public class VelocityComponent {
+import com.badlogic.ashley.core.Component;
+
+public class VelocityComponent extends Component {
 
     private int x = 0, y = 0;
 
