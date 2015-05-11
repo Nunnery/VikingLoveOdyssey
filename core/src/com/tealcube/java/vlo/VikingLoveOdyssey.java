@@ -1,5 +1,6 @@
 package com.tealcube.java.vlo;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,11 +24,15 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
     private DungeonView dungeonView;
     private Generator generator;
     private Random random;
+    private Engine engine;
+    private long lastUpdate = 0;
 
     @Override public void create() {
         for (BlockType blockType : BlockType.values()) {
             BlockTextureMap.getInstance().put(blockType, new Texture(Gdx.files.internal(blockType.getPath())));
         }
+
+        engine = new Engine();
 
         random = new Random(System.currentTimeMillis());
 
@@ -44,6 +49,11 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
     }
 
     @Override public void render() {
+        if (lastUpdate == 0) {
+            lastUpdate = System.currentTimeMillis();
+        }
+        engine.update(System.currentTimeMillis() - lastUpdate);
+        lastUpdate = System.currentTimeMillis();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         dungeonView.render();
