@@ -13,6 +13,7 @@ import com.tealcube.java.vlo.generators.Generator;
 import com.tealcube.java.vlo.generators.PrimsGenerator;
 import com.tealcube.java.vlo.populators.LoopPopulator;
 import com.tealcube.java.vlo.populators.SparsenessPopulator;
+import com.tealcube.java.vlo.systems.MovementSystem;
 
 import java.util.Random;
 
@@ -33,6 +34,7 @@ public class VikingLoveOdyssey extends ApplicationAdapter {
         }
 
         engine = new Engine();
+        engine.addSystem(new MovementSystem());
 
         random = new Random(System.currentTimeMillis());
 
